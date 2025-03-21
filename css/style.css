@@ -1118,19 +1118,4 @@ html, body {
     overflow-x: hidden;
 }
 
-/* Hero Section Styling */
-.hero {
-    background: url('../img/Sports_Center_Logo.jpg') no-repeat center center;
-    background-size: contain; /* Adjust based on preference */
-    min-height: 100vh; /* Ensure it fills the screen */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
-}
 
-/* Reduce extra spacing inside hero-content */
-.hero-content {
-    padding: 10px 0; /* Adjust padding to remove extra space */
-}
