@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+     <!-- Navigation Bar -->
+<nav>
+    <h2>Welcome, <span id="username">User</span>!</h2>
+    <div class="nav-buttons">
+        <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+        <button onclick="logout()">🚪 Logout</button>
+    </div>
+</nav>
+
+    <!-- Profile Section -->
+    
+<div class="profile-card">
+    <h3>Your Profile</h3>
+    <img id="profilePic" src="img/default-profile.png" alt="Profile Picture">
+    <p><strong>Name:</strong> <span id="profileName">User Name</span></p>
+    <p><strong>Email:</strong> <span id="profileEmail">user@example.com</span></p>
+    <input type="file" id="uploadProfilePic" style="display: none;" accept="image/*" onchange="updateProfilePic(event)">
+    <button onclick="document.getElementById('uploadProfilePic').click();">Change Picture</button>
+    <button onclick="editProfile()">Edit Profile</button>
+</div>
+
+    <!-- Training Schedule -->
+    <div class="dashboard-content">
+        <h3>Your Sports Activities</h3>
+        <ul>
+            <li>🏀 <strong>Basketball Training</strong>: Monday & Wednesday</li>
+            <li>⚽ <strong>Football Training</strong>: Tuesday & Thursday</li>
+            <li>🎾 <strong>Tennis Training</strong>: Saturday</li>
+        </ul>
+    </div>
+
+    <!-- Training Progress -->
+    <div class="progress-container">
+        <h3>Training Progress</h3>
+        <div class="progress-bar">
+            <div class="progress" id="trainingProgress" style="width: 70%;">70%</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Sports Center. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
