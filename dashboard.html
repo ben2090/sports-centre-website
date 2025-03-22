@@ -7,26 +7,26 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-     <!-- Navigation Bar -->
-<nav>
-    <h2>Welcome, <span id="username">User</span>!</h2>
-    <div class="nav-buttons">
-        <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-        <button onclick="logout()">🚪 Logout</button>
-    </div>
-</nav>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <h2>Welcome, <span id="username">User</span>!</h2>
+        <div class="nav-buttons">
+            <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+            <button id="logout">🚪 Logout</button>
+        </div>
+    </nav>
 
     <!-- Profile Section -->
-    
-<div class="profile-card">
-    <h3>Your Profile</h3>
-    <img id="profilePic" src="img/default-profile.png" alt="Profile Picture">
-    <p><strong>Name:</strong> <span id="profileName">User Name</span></p>
-    <p><strong>Email:</strong> <span id="profileEmail">user@example.com</span></p>
-    <input type="file" id="uploadProfilePic" style="display: none;" accept="image/*" onchange="updateProfilePic(event)">
-    <button onclick="document.getElementById('uploadProfilePic').click();">Change Picture</button>
-    <button onclick="editProfile()">Edit Profile</button>
-</div>
+    <div class="profile-card">
+        <h3>Your Profile</h3>
+        <img id="profilePic" src="img/default-profile.png" alt="Profile Picture">
+        <p><strong>Name:</strong> <span id="profileName">User Name</span></p>
+        <p><strong>Email:</strong> <span id="profileEmail">user@example.com</span></p>
+        <input type="file" id="uploadProfilePic" style="display: none;" accept="image/*" onchange="updateProfilePic(event)">
+        <button onclick="document.getElementById('uploadProfilePic').click();">Change Picture</button>
+        <button onclick="editProfile()">Edit Profile</button>
+    </div>
 
     <!-- Training Schedule -->
     <div class="dashboard-content">
@@ -50,6 +50,51 @@
         <p>&copy; <span id="year"></span> Sports Center. All Rights Reserved.</p>
     </footer>
 
-    <script src="js/script.js"></script>
+    <!-- Firebase Authentication Script -->
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } 
+            from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8dAA_ZyImM1E3-GfZgOBH-9i-d6pBh0U",
+            authDomain: "webproject-5f201.firebaseapp.com",
+            projectId: "webproject-5f201",
+            storageBucket: "webproject-5f201.appspot.com",
+            messagingSenderId: "397580939787",
+            appId: "1:397580939787:web:295411bd00d94456584d0e"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check if user is logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById("profileName").innerText = user.displayName || "User";
+                document.getElementById("profileEmail").innerText = user.email;
+                document.getElementById("username").innerText = user.displayName || "User";
+            } else {
+                // Redirect to login if not authenticated
+                window.location.href = "login.html";
+            }
+        });
+
+        // Logout function
+        document.getElementById("logout").addEventListener("click", () => {
+            signOut(auth).then(() => {
+                window.location.href = "login.html";
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+            });
+        });
+
+        // Set current year in footer
+        document.getElementById("year").innerText = new Date().getFullYear();
+    </script>
+
 </body>
-</html>
+    </html>
