@@ -5,126 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sports Center</title>
     <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Full-Screen Landing Page -->
-    <header class="hero">
-    <div class="hero-content">
-        <h1>Welcome to the Ultimate Sports Experience</h1>
-        <p>Elite training in Tennis, Football, Volleyball, and Basketball.</p>
-        <button onclick="scrollToSection()">Explore Now</button>
-    </div>
-</header>
-
     <!-- Navigation Bar -->
-      <nav>
-          
-    <button class="menu-toggle" onclick="toggleMenu()">☰</button> <!-- Hamburger Icon -->
-    <ul id="nav-links">
-        <li><a href="#home" class="nav-link">Home</a></li>
-        <li><a href="#sports" class="nav-link">Sports</a></li>
-        <li><a href="#trainers" class="nav-link">Trainers</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-        <li><a href="login.html" class="nav-link">Login</a></li>
-    </ul>
-</nav>
-  <!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1 id="hero-text">Elevate Your Game</h1>
-        <p>Train with elite coaches in Football, Tennis, Volleyball, and Basketball.</p>
-        <a href="#programs" class="cta-button">Join Now</a>
-    </div>
-</section>
-     <section class="scroll-animation">
-    <h2>Welcome to Our Sports Training Center</h2>
-    <p>Join our elite training programs and take your skills to the next level!</p>
-</section>
+    <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul id="nav-links">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#sports" class="nav-link">Sports</a></li>
+            <li><a href="#trainers" class="nav-link">Trainers</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+            <li><a href="login.html" class="nav-link">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section with Sliding Images -->
+    <section class="hero">
+        <div class="slider">
+            <div class="slide fade">
+                <img src="img/slide1.jpg" alt="Sports Training">
+            </div>
+            <div class="slide fade">
+                <img src="img/slide2.jpg" alt="Football Training">
+            </div>
+            <div class="slide fade">
+                <img src="img/slide3.jpg" alt="Tennis Training">
+            </div>
+        </div>
+        
+        <!-- Navigation Dots -->
+        <div class="slider-dots">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+
+        <div class="hero-content">
+            <h1>Welcome to The Ultimate Education and Sports Training Center</h1>
+            <p>At Greens Education and Children Center, we offer modern training in Tennis, Football, Volleyball, and Indoor Sports.</p>
+            <a href="#programs" class="cta-button">Join Now</a>
+        </div>
+    </section>
 
     <!-- Sports Section -->
     <section id="programs">
-    <h2>Our Sports</h2>
-    <div class="sports-grid">
-        <div class="sport" onclick="openSport('Tennis')">🎾 Tennis</div>
-        <div class="sport" onclick="openSport('Football')">⚽ Football</div>
-        <div class="sport" onclick="openSport('Volleyball')">🏐 Volleyball</div>
-        <div class="sport" onclick="openSport('Basketball')">🏀 Basketball</div>
-    </div>
-</section>
+        <h2>Our Sports</h2>
+        <div class="sports-grid">
+            <div class="sport" onclick="openSport('Tennis')">🎾 Tennis</div>
+            <div class="sport" onclick="openSport('Football')">⚽ Football</div>
+            <div class="sport" onclick="openSport('Volleyball')">🏐 Volleyball</div>
+            <div class="sport" onclick="openSport('Basketball')">🏀 Basketball</div>
+        </div>
+    </section>
 
     <!-- Trainers Section -->
     <section id="trainers">
-    <h2>Meet Our Trainers</h2>
-    <p>Our elite trainers have years of experience in top leagues.</p>
-    <div class="trainers-grid">
-        <div class="trainer">
-            <img src="img/trainer1.jpg" alt="Trainer 1">
-            <h3>John Doe</h3>
-            <p>Football Coach</p>
+        <h2>Meet Our Trainers</h2>
+        <div class="trainers-grid">
+            <div class="trainer">
+                <img src="img/trainer1.jpg" alt="Trainer 1">
+                <h3>John Doe</h3>
+                <p>Football Coach</p>
+            </div>
+            <div class="trainer">
+                <img src="img/trainer2.jpg" alt="Trainer 2">
+                <h3>Jane Smith</h3>
+                <p>Tennis Instructor</p>
+            </div>
         </div>
-        <div class="trainer">
-            <img src="img/trainer2.jpg" alt="Trainer 2">
-            <h3>Jane Smith</h3>
-            <p>Tennis Instructor</p>
-        </div>
-        <div class="trainer">
-            <img src="img/trainer3.jpg" alt="Trainer 3">
-            <h3>Mike Johnson</h3>
-            <p>Basketball Trainer</p>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- Contact Section -->
     <section id="contact">
-    <h2>Contact Us</h2>
-    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:info@sportscenter.com">info@sportscenter.com</a></p>
-    <p><i class="fas fa-phone"></i> Phone: +123 456 7890</p>
-    
-    <form id="contactForm">
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-    </form>
-</section>
+        <h2>Contact Us</h2>
+        <p>Email: <a href="mailto:info@sportscenter.com">info@sportscenter.com</a></p>
+        <p>Phone: +123 456 7890</p>
+        <form id="contactForm">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
 
-    <!-- Login Section -->
-    <section id="login">
-    <h2>Login</h2>
-    <a href="login.html">
-        <button>Go to Login Page</button>
-    </a>
-      
-</section>
-  
-    <!-- Footer Section -->
-<footer>
-    <img src="img/Ripper_Technologies_HighTech_Logo.jpg" alt="Ripper Technologies Logo">
-    <p>Website created by Ben the Ripper</p>
-    <p>&copy; 2025 Ripper Technologies. All rights reserved.</p>
-</footer>
+    <!-- Footer with Social Media Links -->
+    <footer>
+        <img src="img/Ripper_Technologies_HighTech_Logo.jpg" alt="Ripper Technologies Logo">
+        <p>Website created by Ben the Ripper</p>
+        <p>&copy; 2025 Ripper Technologies. All rights reserved.</p>
 
-    <!-- Chat Icon -->
-    <div class="chat-icon" onclick="toggleChat()">
-        💬
-    </div>
-
-    <!-- Chat Box -->
-    <div class="chat-box" id="chatBox">
-        <div class="chat-header">
-            <h3>Live Chat</h3>
-            <button onclick="toggleChat()">✖</button>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank">📘 Facebook</a>
+            <a href="https://instagram.com" target="_blank">📸 Instagram</a>
+            <a href="https://twitter.com" target="_blank">🐦 Twitter</a>
         </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button onclick="scrollToTop()" id="backToTop">⬆ Top</button>
 
     <script src="js/script.js"></script>
 </body>
-</html>
+                </html>
