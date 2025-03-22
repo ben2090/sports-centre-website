@@ -17,42 +17,12 @@
         </div>
     </nav>
 
-    <!-- Quick Actions -->
-    <section class="quick-actions">
-        <button>📈 View Stats</button>
-        <button>📅 Join Event</button>
-        <button>💬 Contact Coach</button>
-    </section>
-
-    <!-- User Card Section -->
+    <!-- User Info -->
     <section class="user-card">
-        <div class="user-info">
-            <h3>👤 Profile Overview</h3>
-            <p><strong>👨‍💼 Name:</strong> <span id="profileName">User Name</span></p>
-            <p><strong>📧 Email:</strong> <span id="profileEmail">user@example.com</span></p>
-            <p><strong>📅 Member Since:</strong> <span id="memberSince">2024</span></p>
-            <p><strong>⏳ Last Login:</strong> <span id="lastLogin">-</span></p>
-        </div>
-    </section>
-
-    <!-- Achievements Section -->
-    <section class="achievements">
-        <h3>🏆 Achievements & Badges</h3>
-        <div class="badges">
-            <span class="badge">🔥 Beginner</span>
-            <span class="badge">💪 Consistent</span>
-            <span class="badge">🏅 Champion</span>
-        </div>
-    </section>
-
-    <!-- Notifications Section -->
-    <section class="notifications">
-        <h3>🔔 Notifications</h3>
-        <ul id="notificationList">
-            <li>⚽ Football training updated to 5 PM.</li>
-            <li>🏀 New Basketball Tournament announced!</li>
-            <li>🎾 Tennis session rescheduled for Sunday.</li>
-        </ul>
+        <h3>👤 Profile Overview</h3>
+        <p><strong>👨‍💼 Name:</strong> <span id="profileName">User Name</span></p>
+        <p><strong>📧 Email:</strong> <span id="profileEmail">user@example.com</span></p>
+        <p><strong>📅 Member Since:</strong> <span id="memberSince">2024</span></p>
     </section>
 
     <!-- Training Schedule -->
@@ -81,24 +51,36 @@
         <p><strong>Current Goal:</strong> <span id="userGoal">None</span></p>
     </section>
 
-    <!-- Leaderboard -->
-    <section class="leaderboard">
-        <h3>🌟 Top Performers</h3>
-        <ol>
-            <li>🏆 Alex Johnson - 95% Progress</li>
-            <li>🥈 Chris Evans - 89% Progress</li>
-            <li>🥉 Jamie Smith - 85% Progress</li>
-            <li>💪 You - <span id="userProgress">70%</span> Progress</li>
-        </ol>
-    </section>
-
     <footer>
         <p>&copy; <span id="year"></span> Sports Center. All Rights Reserved.</p>
     </footer>
 
     <script src="js/script.js"></script>
-    <script>
-        // Dynamic Greeting
+    <script type="module">
+        import { getAuth, onAuthStateChanged, signOut } 
+        from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+        const auth = getAuth();
+
+        // ✅ Ensure User is Authenticated, Otherwise Redirect to Login
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "login.html"; // Redirect if not logged in
+            } else {
+                document.getElementById("username").innerText = user.displayName || "User";
+                document.getElementById("profileEmail").innerText = user.email;
+            }
+        });
+
+        // ✅ Logout Function
+        document.getElementById("logout").addEventListener("click", () => {
+            signOut(auth).then(() => {
+                console.log("User logged out");
+                window.location.href = "login.html"; // Redirect to login
+            }).catch((error) => console.error("Logout error:", error));
+        });
+
+        // ✅ Dynamic Greeting Based on Time
         function updateGreeting() {
             const hour = new Date().getHours();
             let greetingText = "Welcome";
@@ -109,21 +91,23 @@
         }
         updateGreeting();
 
-        // Goal Tracker
+        // ✅ Goal Tracker: Save & Load Goal from Local Storage
         function setGoal() {
             let goal = document.getElementById("goalInput").value;
             document.getElementById("userGoal").innerText = goal || "None";
             localStorage.setItem("userGoal", goal);
         }
 
-        // Load saved goal on page reload
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", () => {
             let savedGoal = localStorage.getItem("userGoal");
             if (savedGoal) {
                 document.getElementById("userGoal").innerText = savedGoal;
             }
         });
+
+        // ✅ Update Year in Footer
+        document.getElementById("year").innerText = new Date().getFullYear();
     </script>
 
 </body>
-                                      </html>
+</html>
