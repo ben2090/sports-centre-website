@@ -10,17 +10,71 @@
 
     <div class="register-container">
         <h2>Create an Account</h2>
-      <p class="error-message register-error" style="display: none; color: red;"></p>
-        <form>
-            <input type="text" placeholder="Full Name" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <input type="password" placeholder="Confirm Password" required>
+        <p class="error-message register-error" style="display: none; color: red;"></p>
+        <form id="register-form">
+            <input type="text" id="fullname" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
             <button type="submit">Register</button>
         </form>
         <p>Already have an account? <a href="login.html">Login</a></p>
     </div>
 
-    <script src="js/script.js"></script>
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } 
+            from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8dAA_ZyImM1E3-GfZgOBH-9i-d6pBh0U",
+            authDomain: "webproject-5f201.firebaseapp.com",
+            projectId: "webproject-5f201",
+            storageBucket: "webproject-5f201.appspot.com",
+            messagingSenderId: "397580939787",
+            appId: "1:397580939787:web:295411bd00d94456584d0e"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Handle User Registration
+        document.getElementById("register-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const fullname = document.getElementById("fullname").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const errorMessage = document.querySelector(".register-error");
+
+            // Validate Passwords Match
+            if (password !== confirmPassword) {
+                errorMessage.innerText = "Passwords do not match!";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // Register User
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    
+                    // Update user profile with their full name
+                    return updateProfile(user, { displayName: fullname });
+                })
+                .then(() => {
+                    alert("Registration successful! Redirecting...");
+                    window.location.href = "dashboard.html"; // Redirect after registration
+                })
+                .catch((error) => {
+                    errorMessage.innerText = error.message;
+                    errorMessage.style.display = "block";
+                });
+        });
+    </script>
+    
 </body>
-</html>
+    </html>
