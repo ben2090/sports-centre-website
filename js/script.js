@@ -335,7 +335,7 @@ function typeEffect() {
         setTimeout(typeEffect, speed);
     }
 }
-
+document.addEventListener("DOMContentLoaded", typeEffect);
 // Import Firebase Authentication
 import { getAuth, setPersistence, browserSessionPersistence, 
          signInWithEmailAndPassword, onAuthStateChanged, signOut } 
