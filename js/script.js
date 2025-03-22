@@ -337,3 +337,45 @@ function typeEffect() {
 }
 
 document.addEventListener("DOMContentLoaded", typeEffect);
+import { getAuth, setPersistence, browserSessionPersistence, 
+         signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+const auth = getAuth();
+
+// ✅ Enable session persistence (so users stay logged in)
+setPersistence(auth, browserSessionPersistence)
+  .then(() => console.log("Session persistence enabled"))
+  .catch((error) => console.error("Error setting persistence:", error));
+
+// ✅ Login Function (called in login.html)
+function loginUser(email, password) {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      console.log("Login successful:", userCredential.user);
+      window.location.href = "dashboard.html"; // Redirect to dashboard
+    })
+    .catch((error) => {
+      console.error("Login error:", error.message);
+      document.querySelector(".login-error").textContent = error.message;
+      document.querySelector(".login-error").style.display = "block";
+    });
+}
+
+// ✅ Logout Function (called in dashboard.html)
+document.getElementById("logout")?.addEventListener("click", () => {
+  signOut(auth).then(() => {
+    console.log("User logged out");
+    window.location.href = "login.html"; // Redirect to login page
+  }).catch((error) => console.error("Logout error:", error));
+});
+
+// ✅ Protect Dashboard: Redirect to login if not logged in
+onAuthStateChanged(auth, (user) => {
+  if (!user && window.location.pathname.includes("dashboard.html")) {
+    window.location.href = "login.html";
+  } else if (user) {
+    document.getElementById("username").innerText = user.displayName || "User";
+    document.getElementById("profileEmail").innerText = user.email;
+  }
+});
