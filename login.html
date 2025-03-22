@@ -10,15 +10,54 @@
 
     <div class="login-container">
         <h2>Login to Your Account</h2>
-      <p class="error-message login-error" style="display: none; color: red;"></p>
-        <form>
-            <input type="text" placeholder="Username" required>
-            <input type="password" placeholder="Password" required>
+        <p class="error-message login-error" style="display: none; color: red;"></p>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
         <p>Don't have an account? <a href="register.html">Register</a></p>
     </div>
 
-    <script src="js/script.js"></script>
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } 
+            from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8dAA_ZyImM1E3-GfZgOBH-9i-d6pBh0U",
+            authDomain: "webproject-5f201.firebaseapp.com",
+            projectId: "webproject-5f201",
+            storageBucket: "webproject-5f201.appspot.com",
+            messagingSenderId: "397580939787",
+            appId: "1:397580939787:web:295411bd00d94456584d0e"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Handle User Login
+        document.getElementById("login-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            const errorMessage = document.querySelector(".login-error");
+
+            // Login User
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Login successful! Redirecting...");
+                    window.location.href = "dashboard.html"; // Redirect after login
+                })
+                .catch((error) => {
+                    errorMessage.innerText = error.message;
+                    errorMessage.style.display = "block";
+                });
+        });
+    </script>
+    
 </body>
 </html>
