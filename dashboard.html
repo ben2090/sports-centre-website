@@ -10,91 +10,120 @@
 
     <!-- Navigation Bar -->
     <nav>
-        <h2>Welcome, <span id="username">User</span>!</h2>
+        <h2 id="greeting">Welcome, <span id="username">User</span>! 🎉</h2>
         <div class="nav-buttons">
             <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
             <button id="logout">🚪 Logout</button>
         </div>
     </nav>
 
-    <!-- Profile Section -->
-    <div class="profile-card">
-        <h3>Your Profile</h3>
-        <img id="profilePic" src="img/default-profile.png" alt="Profile Picture">
-        <p><strong>Name:</strong> <span id="profileName">User Name</span></p>
-        <p><strong>Email:</strong> <span id="profileEmail">user@example.com</span></p>
-        <input type="file" id="uploadProfilePic" style="display: none;" accept="image/*" onchange="updateProfilePic(event)">
-        <button onclick="document.getElementById('uploadProfilePic').click();">Change Picture</button>
-        <button onclick="editProfile()">Edit Profile</button>
-    </div>
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <button>📈 View Stats</button>
+        <button>📅 Join Event</button>
+        <button>💬 Contact Coach</button>
+    </section>
+
+    <!-- User Card Section -->
+    <section class="user-card">
+        <div class="user-info">
+            <h3>👤 Profile Overview</h3>
+            <p><strong>👨‍💼 Name:</strong> <span id="profileName">User Name</span></p>
+            <p><strong>📧 Email:</strong> <span id="profileEmail">user@example.com</span></p>
+            <p><strong>📅 Member Since:</strong> <span id="memberSince">2024</span></p>
+            <p><strong>⏳ Last Login:</strong> <span id="lastLogin">-</span></p>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="achievements">
+        <h3>🏆 Achievements & Badges</h3>
+        <div class="badges">
+            <span class="badge">🔥 Beginner</span>
+            <span class="badge">💪 Consistent</span>
+            <span class="badge">🏅 Champion</span>
+        </div>
+    </section>
+
+    <!-- Notifications Section -->
+    <section class="notifications">
+        <h3>🔔 Notifications</h3>
+        <ul id="notificationList">
+            <li>⚽ Football training updated to 5 PM.</li>
+            <li>🏀 New Basketball Tournament announced!</li>
+            <li>🎾 Tennis session rescheduled for Sunday.</li>
+        </ul>
+    </section>
 
     <!-- Training Schedule -->
-    <div class="dashboard-content">
-        <h3>Your Sports Activities</h3>
+    <section class="dashboard-content">
+        <h3>📅 Your Sports Activities</h3>
         <ul>
             <li>🏀 <strong>Basketball Training</strong>: Monday & Wednesday</li>
             <li>⚽ <strong>Football Training</strong>: Tuesday & Thursday</li>
             <li>🎾 <strong>Tennis Training</strong>: Saturday</li>
         </ul>
-    </div>
+    </section>
 
     <!-- Training Progress -->
-    <div class="progress-container">
-        <h3>Training Progress</h3>
+    <section class="progress-container">
+        <h3>📊 Training Progress</h3>
         <div class="progress-bar">
             <div class="progress" id="trainingProgress" style="width: 70%;">70%</div>
         </div>
-    </div>
+    </section>
+
+    <!-- Personalized Goal Tracker -->
+    <section class="goal-tracker">
+        <h3>🎯 Set Your Weekly Goal</h3>
+        <input type="text" id="goalInput" placeholder="E.g., Run 10km this week">
+        <button onclick="setGoal()">Save Goal</button>
+        <p><strong>Current Goal:</strong> <span id="userGoal">None</span></p>
+    </section>
+
+    <!-- Leaderboard -->
+    <section class="leaderboard">
+        <h3>🌟 Top Performers</h3>
+        <ol>
+            <li>🏆 Alex Johnson - 95% Progress</li>
+            <li>🥈 Chris Evans - 89% Progress</li>
+            <li>🥉 Jamie Smith - 85% Progress</li>
+            <li>💪 You - <span id="userProgress">70%</span> Progress</li>
+        </ol>
+    </section>
 
     <footer>
         <p>&copy; <span id="year"></span> Sports Center. All Rights Reserved.</p>
     </footer>
 
-    <!-- Firebase Authentication Script -->
-    <script type="module">
-        // Import Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } 
-            from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+    <script src="js/script.js"></script>
+    <script>
+        // Dynamic Greeting
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greetingText = "Welcome";
+            if (hour < 12) greetingText = "Good Morning";
+            else if (hour < 18) greetingText = "Good Afternoon";
+            else greetingText = "Good Evening";
+            document.getElementById("greeting").innerHTML = `${greetingText}, <span id="username">User</span>! 🎉`;
+        }
+        updateGreeting();
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyC8dAA_ZyImM1E3-GfZgOBH-9i-d6pBh0U",
-            authDomain: "webproject-5f201.firebaseapp.com",
-            projectId: "webproject-5f201",
-            storageBucket: "webproject-5f201.appspot.com",
-            messagingSenderId: "397580939787",
-            appId: "1:397580939787:web:295411bd00d94456584d0e"
-        };
+        // Goal Tracker
+        function setGoal() {
+            let goal = document.getElementById("goalInput").value;
+            document.getElementById("userGoal").innerText = goal || "None";
+            localStorage.setItem("userGoal", goal);
+        }
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Check if user is logged in
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById("profileName").innerText = user.displayName || "User";
-                document.getElementById("profileEmail").innerText = user.email;
-                document.getElementById("username").innerText = user.displayName || "User";
-            } else {
-                // Redirect to login if not authenticated
-                window.location.href = "login.html";
+        // Load saved goal on page reload
+        document.addEventListener("DOMContentLoaded", function() {
+            let savedGoal = localStorage.getItem("userGoal");
+            if (savedGoal) {
+                document.getElementById("userGoal").innerText = savedGoal;
             }
         });
-
-        // Logout function
-        document.getElementById("logout").addEventListener("click", () => {
-            signOut(auth).then(() => {
-                window.location.href = "login.html";
-            }).catch((error) => {
-                console.error("Logout Error:", error);
-            });
-        });
-
-        // Set current year in footer
-        document.getElementById("year").innerText = new Date().getFullYear();
     </script>
 
 </body>
-    </html>
+                                      </html>
