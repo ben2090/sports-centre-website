@@ -414,46 +414,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-// Image Slider Functionality
-let slideIndex = 0;
-showSlides();
 
-function showSlides() {
-    let slides = document.getElementsByClassName("slide");
-    let dots = document.getElementsByClassName("dot");
-
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-
-    slideIndex++;
-    if (slideIndex > slides.length) { slideIndex = 1; }
-
-    for (let i = 0; i < dots.length; i++) {
-        dots[i].classList.remove("active");
-    }
-
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].classList.add("active");
-
-    setTimeout(showSlides, 3000);
-}
-
-function currentSlide(n) {
-    slideIndex = n - 1;
-    showSlides();
-}
-
-// Back to Top Button
-window.onscroll = function() {
-    let button = document.getElementById("backToTop");
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        button.style.display = "block";
-    } else {
-        button.style.display = "none";
-    }
-};
-
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    }
