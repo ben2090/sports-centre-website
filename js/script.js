@@ -336,11 +336,12 @@ function typeEffect() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", typeEffect);
+// Import Firebase Authentication
 import { getAuth, setPersistence, browserSessionPersistence, 
          signInWithEmailAndPassword, onAuthStateChanged, signOut } 
 from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
 
+// Initialize Firebase Authentication
 const auth = getAuth();
 
 // ✅ Enable session persistence (so users stay logged in)
@@ -348,7 +349,7 @@ setPersistence(auth, browserSessionPersistence)
   .then(() => console.log("Session persistence enabled"))
   .catch((error) => console.error("Error setting persistence:", error));
 
-// ✅ Login Function (called in login.html)
+// ✅ Function to Log In User
 function loginUser(email, password) {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -357,25 +358,59 @@ function loginUser(email, password) {
     })
     .catch((error) => {
       console.error("Login error:", error.message);
-      document.querySelector(".login-error").textContent = error.message;
-      document.querySelector(".login-error").style.display = "block";
+      const errorMsg = document.querySelector(".login-error");
+      if (errorMsg) {
+        errorMsg.textContent = error.message;
+        errorMsg.style.display = "block";
+      }
     });
 }
 
-// ✅ Logout Function (called in dashboard.html)
-document.getElementById("logout")?.addEventListener("click", () => {
-  signOut(auth).then(() => {
-    console.log("User logged out");
-    window.location.href = "login.html"; // Redirect to login page
-  }).catch((error) => console.error("Logout error:", error));
-});
-
-// ✅ Protect Dashboard: Redirect to login if not logged in
-onAuthStateChanged(auth, (user) => {
-  if (!user && window.location.pathname.includes("dashboard.html")) {
-    window.location.href = "login.html";
-  } else if (user) {
-    document.getElementById("username").innerText = user.displayName || "User";
-    document.getElementById("profileEmail").innerText = user.email;
+// ✅ Ensure DOM is Loaded Before Running Scripts
+document.addEventListener("DOMContentLoaded", () => {
+  
+  // ✅ Handle Login Form Submission
+  const loginForm = document.getElementById("loginForm");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      loginUser(email, password);
+    });
   }
+
+  // ✅ Handle Logout Button Click (Fix for dashboard.html)
+  setTimeout(() => { // Ensures it executes after DOM is fully loaded
+    const logoutBtn = document.getElementById("logout");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        signOut(auth)
+          .then(() => {
+            console.log("User logged out");
+            window.location.href = "login.html"; // Redirect to login page
+          })
+          .catch((error) => console.error("Logout error:", error));
+      });
+    } else {
+      console.error("Logout button not found!");
+    }
+  }, 500); // Small delay to ensure the DOM is ready
+
+  // ✅ Protect Dashboard: Redirect if Not Logged In
+  onAuthStateChanged(auth, (user) => {
+    console.log("Auth state changed:", user);
+
+    if (!user && window.location.pathname.includes("dashboard.html")) {
+      console.log("No user detected, redirecting to login...");
+      window.location.href = "login.html";
+    } else if (user) {
+      // Update User Profile Info in Dashboard
+      const username = document.getElementById("username");
+      const profileEmail = document.getElementById("profileEmail");
+
+      if (username) username.innerText = user.displayName || "User";
+      if (profileEmail) profileEmail.innerText = user.email;
+    }
+  });
 });
