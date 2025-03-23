@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Ensure text visibility and interaction */
+        .clickable {
+            cursor: pointer;
+            color: black; /* Default color */
+            transition: color 0.3s ease;
+        }
+
+        /* Apply blue color when clicked */
+        .clicked {
+            color: #007bff !important; /* Force blue text */
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -34,17 +48,17 @@
     <section class="training-recommendations">
         <h3>Today's Training Plan</h3>
         <p class="section-intro">💡 Based on your previous activities, we recommend:</p>
-        <ul class="styled-list">
-            <li>🏋️ <strong>Strength Training</strong> (30 min)</li>
-            <li>⚽ <strong>Ball Handling Drills</strong> (15 min)</li>
-            <li>🏃 <strong>Endurance Run</strong> (5 km)</li>
+        <ul>
+            <li class="clickable" onclick="highlightText(this)">🏋️ <strong>Strength Training</strong> (30 min)</li>
+            <li class="clickable" onclick="highlightText(this)">⚽ <strong>Ball Handling Drills</strong> (15 min)</li>
+            <li class="clickable" onclick="highlightText(this)">🏃 <strong>Endurance Run</strong> (5 km)</li>
         </ul>
     </section>
 
     <!-- 📊 Leaderboard -->
     <section class="leaderboard">
         <h3>Top Performers</h3>
-        <ol class="styled-list">
+        <ol>
             <li>🏆 Alex - 95% Training Completion</li>
             <li>🥈 Jordan - 90% Training Completion</li>
             <li>🥉 Sam - 88% Training Completion</li>
@@ -54,10 +68,10 @@
     <!-- 📅 Recent Activities -->
     <section class="recent-activities">
         <h3>Recent Activities</h3>
-        <ul class="styled-list">
-            <li>✔️ Completed Football Training - Yesterday</li>
-            <li>✔️ Achieved 10km Run Goal - 2 Days Ago</li>
-            <li>✔️ Attended Strength Conditioning Session - Last Week</li>
+        <ul>
+            <li class="clickable" onclick="highlightText(this)">✔️ Completed Football Training - Yesterday</li>
+            <li class="clickable" onclick="highlightText(this)">✔️ Achieved 10km Run Goal - 2 Days Ago</li>
+            <li class="clickable" onclick="highlightText(this)">✔️ Attended Strength Conditioning Session - Last Week</li>
         </ul>
     </section>
 
@@ -110,9 +124,20 @@
             }).catch((error) => console.error("Logout error:", error));
         });
 
+        // Function to highlight text in blue
+        function highlightText(element) {
+            // Remove highlight from all clickable items
+            document.querySelectorAll(".clickable").forEach(item => {
+                item.classList.remove("clicked");
+            });
+
+            // Add highlight to clicked item
+            element.classList.add("clicked");
+        }
+
         // Update Year in Footer
         document.getElementById("year").innerText = new Date().getFullYear();
     </script>
 
 </body>
-            </html>
+    </html>
