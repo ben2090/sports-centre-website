@@ -1,4 +1,20 @@
-// Smooth Scroll to Sports Section
+// ✅ Firebase Configuration (Ensure this is also in your HTML file)
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// ✅ Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// ✅ Ensure User Login Persistence
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+// ✅ Smooth Scroll to Sports Section
 function scrollToSection() {
     let sportsSection = document.querySelector("#sports");
     if (sportsSection) {
@@ -6,7 +22,7 @@ function scrollToSection() {
     }
 }
 
-// Sticky Navigation Bar on Scroll
+// ✅ Sticky Navigation Bar on Scroll
 window.addEventListener("scroll", function () {
     let nav = document.querySelector("nav");
     if (nav) {
@@ -19,7 +35,7 @@ window.addEventListener("scroll", function () {
     }
 });
 
-// Ensure DOM is Loaded Before Running Scripts
+// ✅ Ensure DOM is Loaded Before Running Scripts
 document.addEventListener("DOMContentLoaded", () => {
     // ✅ Set Current Year in Footer
     let yearElement = document.getElementById("year");
@@ -27,21 +43,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Protect Dashboard: Redirect if Not Logged In
     if (window.location.pathname.includes("dashboard.html")) {
-        let isLoggedIn = localStorage.getItem("isLoggedIn");
-        if (!isLoggedIn) {
-            alert("You must be logged in to access the dashboard!");
-            window.location.href = "login.html";
-        }
+        firebase.auth().onAuthStateChanged((user) => {
+            if (!user) {
+                alert("You must be logged in to access the dashboard!");
+                window.location.href = "login.html";
+            } else {
+                // ✅ Load User Data in Dashboard
+                document.getElementById("profileName").textContent = user.displayName || "User";
+                document.getElementById("profileEmail").textContent = user.email;
+                document.getElementById("profilePic").src = user.photoURL || "default-pic.jpg";
+            }
+        });
     }
 
     // ✅ Ensure Logout Button Works
     let logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
         logoutBtn.addEventListener("click", function () {
-            alert("Logging out...");
-            localStorage.removeItem("isLoggedIn");
-            localStorage.removeItem("username");
-            window.location.href = "login.html";
+            firebase.auth().signOut().then(() => {
+                alert("Logged out successfully!");
+                window.location.href = "login.html";
+            }).catch((error) => {
+                alert("Error logging out: " + error.message);
+            });
         });
     }
 
@@ -59,16 +83,34 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("darkMode", isDark);
         });
     }
-
-    // ✅ Load Saved Profile Data from Local Storage
-    let profileName = document.getElementById("profileName");
-    let profileEmail = document.getElementById("profileEmail");
-    let profilePic = document.getElementById("profilePic");
-
-    if (profileName) profileName.textContent = localStorage.getItem("profileName") || "User";
-    if (profileEmail) profileEmail.textContent = localStorage.getItem("profileEmail") || "email@example.com";
-    if (profilePic) profilePic.src = localStorage.getItem("profilePic") || "default-pic.jpg";
 });
+
+// ✅ Handle Firebase Login
+function handleLogin() {
+    let email = document.getElementById("login-username")?.value.trim();
+    let password = document.getElementById("login-password")?.value.trim();
+    let errorBox = document.querySelector(".login-error");
+
+    if (!email || !password) {
+        if (errorBox) {
+            errorBox.textContent = "All fields are required!";
+            errorBox.style.display = "block";
+        }
+        return;
+    }
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            alert("Login Successful!");
+            window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+            if (errorBox) {
+                errorBox.textContent = error.message;
+                errorBox.style.display = "block";
+            }
+        });
+}
 
 // ✅ Function to Enable Profile Editing
 function editProfile() {
@@ -81,11 +123,10 @@ function editProfile() {
 
         if (newName) {
             nameElement.textContent = newName;
-            localStorage.setItem("profileName", newName);
+            firebase.auth().currentUser.updateProfile({ displayName: newName });
         }
         if (newEmail) {
-            emailElement.textContent = newEmail;
-            localStorage.setItem("profileEmail", newEmail);
+            firebase.auth().currentUser.updateEmail(newEmail).catch(error => alert(error.message));
         }
     }
 }
@@ -99,7 +140,7 @@ function updateProfilePic(event) {
             let profilePic = document.getElementById("profilePic");
             if (profilePic) {
                 profilePic.src = e.target.result;
-                localStorage.setItem("profilePic", e.target.result);
+                firebase.auth().currentUser.updateProfile({ photoURL: e.target.result });
             }
         };
         reader.readAsDataURL(file);
@@ -121,33 +162,6 @@ function toggleMenu() {
                 navLinks.style.display = "none";
             }, 7000);
         }
-    }
-}
-
-// ✅ Handle Login
-function handleLogin() {
-    let username = document.getElementById("login-username")?.value.trim();
-    let password = document.getElementById("login-password")?.value.trim();
-    let errorBox = document.querySelector(".login-error");
-
-    if (!username || !password) {
-        if (errorBox) {
-            errorBox.textContent = "All fields are required!";
-            errorBox.style.display = "block";
-        }
-        return;
-    }
-
-    // Dummy User Check
-    let fakeUser = { username: "user", password: "123456" };
-    if (username === fakeUser.username && password === fakeUser.password) {
-        alert("Login Successful!");
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", username);
-        window.location.href = "dashboard.html";
-    } else if (errorBox) {
-        errorBox.textContent = "Invalid username or password!";
-        errorBox.style.display = "block";
     }
 }
 
