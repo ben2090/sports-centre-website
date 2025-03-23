@@ -8,71 +8,81 @@
 </head>
 <body>
 
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-        <h2>Dashboard</h2>
-        <ul>
-            <li><a href="#">Overview</a></li>
-            <li><a href="#">Statistics</a></li>
-            <li><a href="#">Notifications</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><button id="logout">Logout</button></li>
+    <!-- Navigation Bar -->
+    <nav>
+        <h2 id="greeting">Welcome, <span id="username">User</span>!</h2>
+        <div class="nav-buttons">
+            <button id="logout">Logout</button>
+        </div>
+    </nav>
+
+    <!-- User Info -->
+    <section class="user-card">
+        <h3>Profile Overview</h3>
+        <p><strong>Name:</strong> <span id="profileName">User Name</span></p>
+        <p><strong>Email:</strong> <span id="profileEmail">user@example.com</span></p>
+        <p><strong>Member Since:</strong> <span id="memberSince">2024</span></p>
+    </section>
+
+    <!-- 🎯 Motivational Quote of the Day -->
+    <section class="quote-of-the-day">
+        <h3>Motivational Quote</h3>
+        <p id="quote" class="highlighted-text">"Success is no accident. It is hard work, perseverance, learning, sacrifice, and love of what you are doing." – Pelé</p>
+    </section>
+
+    <!-- 📌 Personalized Training Recommendations -->
+    <section class="training-recommendations">
+        <h3>Today's Training Plan</h3>
+        <p class="section-intro">💡 Based on your previous activities, we recommend:</p>
+        <ul class="styled-list">
+            <li>🏋️ <strong>Strength Training</strong> (30 min)</li>
+            <li>⚽ <strong>Ball Handling Drills</strong> (15 min)</li>
+            <li>🏃 <strong>Endurance Run</strong> (5 km)</li>
         </ul>
-    </aside>
+    </section>
 
-    <!-- Main Content -->
-    <main class="dashboard-container">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <h1>Welcome, <span id="username">User</span>!</h1>
-        </header>
+    <!-- 📊 Leaderboard -->
+    <section class="leaderboard">
+        <h3>Top Performers</h3>
+        <ol class="styled-list">
+            <li>🏆 Alex - 95% Training Completion</li>
+            <li>🥈 Jordan - 90% Training Completion</li>
+            <li>🥉 Sam - 88% Training Completion</li>
+        </ol>
+    </section>
 
-        <!-- User Profile Section -->
-        <section class="user-profile">
-            <h2>Profile Overview</h2>
-            <p><strong>Name:</strong> <span id="profileName">Loading...</span></p>
-            <p><strong>Email:</strong> <span id="profileEmail">Loading...</span></p>
-            <p><strong>Member Since:</strong> <span id="memberSince">2024</span></p>
-        </section>
+    <!-- 📅 Recent Activities -->
+    <section class="recent-activities">
+        <h3>Recent Activities</h3>
+        <ul class="styled-list">
+            <li>✔️ Completed Football Training - Yesterday</li>
+            <li>✔️ Achieved 10km Run Goal - 2 Days Ago</li>
+            <li>✔️ Attended Strength Conditioning Session - Last Week</li>
+        </ul>
+    </section>
 
-        <!-- Statistics Panel -->
-        <section class="dashboard-stats">
-            <h2>Dashboard Overview</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Sessions</h3>
-                    <p>120</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Completed Trainings</h3>
-                    <p>95%</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Upcoming Events</h3>
-                    <p>3</p>
-                </div>
-            </div>
-        </section>
+    <!-- ☀️ Weather Widget -->
+    <section class="weather-widget">
+        <h3>Weather Update</h3>
+        <p class="highlighted-text">🌤️ 28°C - Perfect conditions for outdoor training!</p>
+    </section>
 
-        <!-- Recent Activities -->
-        <section class="recent-activities">
-            <h2>Recent Activity</h2>
-            <ul>
-                <li>⚡ You completed a new milestone!</li>
-                <li>📌 New event added to your schedule.</li>
-                <li>✅ Profile updated successfully.</li>
-            </ul>
-        </section>
+    <!-- 📊 Training Progress -->
+    <section class="progress-container">
+        <h3>Training Progress</h3>
+        <div class="progress-bar">
+            <div class="progress" id="trainingProgress">75%</div>
+        </div>
+    </section>
 
-        <!-- Notifications -->
-        <section class="notifications">
-            <h2>Notifications</h2>
-            <p>No new notifications at the moment.</p>
-        </section>
-    </main>
+    <!-- 🤖 Virtual Coach -->
+    <section class="virtual-coach">
+        <h3>Your Virtual Coach</h3>
+        <p class="coach-message">💬 "Keep up the great work! Let's push for a new record this week."</p>
+    </section>
 
     <footer>
-        <p>&copy; <span id="year"></span> Greens Education & Sports Center. All Rights Reserved.</p>
+        <p>&copy; <span id="year"></span> Sports Center. All Rights Reserved.</p>
     </footer>
 
     <script src="js/script.js"></script>
@@ -82,27 +92,27 @@
 
         const auth = getAuth();
 
-        // ✅ Ensure User is Authenticated
+        // Ensure User is Authenticated, Otherwise Redirect to Login
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                window.location.href = "login.html"; // Redirect to login if not logged in
+                window.location.href = "login.html"; // Redirect if not logged in
             } else {
                 document.getElementById("username").innerText = user.displayName || "User";
-                document.getElementById("profileName").innerText = user.displayName || "User";
                 document.getElementById("profileEmail").innerText = user.email;
             }
         });
 
-        // ✅ Logout Function
+        // Logout Function
         document.getElementById("logout").addEventListener("click", () => {
             signOut(auth).then(() => {
-                window.location.href = "login.html"; // Redirect to login after logout
+                console.log("User logged out");
+                window.location.href = "login.html"; // Redirect to login
             }).catch((error) => console.error("Logout error:", error));
         });
 
-        // ✅ Update Year in Footer
+        // Update Year in Footer
         document.getElementById("year").innerText = new Date().getFullYear();
     </script>
 
 </body>
-</html>
+            </html>
