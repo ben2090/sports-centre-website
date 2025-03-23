@@ -1,93 +1,40 @@
-// ✅ Firebase Configuration (Ensure this is also in your HTML file)
+// ✅ Initialize Firebase
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
     projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
     appId: "YOUR_APP_ID"
 };
-
-// ✅ Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// ✅ Ensure User Login Persistence
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+// ✅ Ensure Firebase Auth Persistence (Keeps user logged in)
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(() => console.log("Persistence set to LOCAL"))
+    .catch(error => console.error("Error setting persistence:", error));
 
-// ✅ Smooth Scroll to Sports Section
-function scrollToSection() {
-    let sportsSection = document.querySelector("#sports");
-    if (sportsSection) {
-        sportsSection.scrollIntoView({ behavior: "smooth" });
-    }
-}
-
-// ✅ Sticky Navigation Bar on Scroll
-window.addEventListener("scroll", function () {
-    let nav = document.querySelector("nav");
-    if (nav) {
-        if (window.scrollY > 50) {
-            nav.style.backgroundColor = "#222"; // Darker background when scrolling
-            nav.style.transition = "0.3s";
-        } else {
-            nav.style.backgroundColor = "transparent"; // Transparent when at top
-        }
-    }
-});
-
-// ✅ Ensure DOM is Loaded Before Running Scripts
+// ✅ Dashboard Authentication Check
 document.addEventListener("DOMContentLoaded", () => {
-    // ✅ Set Current Year in Footer
-    let yearElement = document.getElementById("year");
-    if (yearElement) yearElement.textContent = new Date().getFullYear();
-
-    // ✅ Protect Dashboard: Redirect if Not Logged In
     if (window.location.pathname.includes("dashboard.html")) {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (!user) {
-                alert("You must be logged in to access the dashboard!");
-                window.location.href = "login.html";
-            } else {
-                // ✅ Load User Data in Dashboard
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                console.log("User is logged in:", user);
                 document.getElementById("profileName").textContent = user.displayName || "User";
                 document.getElementById("profileEmail").textContent = user.email;
                 document.getElementById("profilePic").src = user.photoURL || "default-pic.jpg";
-            }
-        });
-    }
-
-    // ✅ Ensure Logout Button Works
-    let logoutBtn = document.getElementById("logout-btn");
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", function () {
-            firebase.auth().signOut().then(() => {
-                alert("Logged out successfully!");
+            } else {
+                console.log("No user logged in. Redirecting...");
+                alert("You must be logged in to access the dashboard!");
                 window.location.href = "login.html";
-            }).catch((error) => {
-                alert("Error logging out: " + error.message);
-            });
-        });
-    }
-
-    // ✅ Apply Dark Mode on Load
-    let isDarkMode = localStorage.getItem("darkMode") === "true";
-    if (isDarkMode) {
-        document.body.classList.add("dark-mode");
-    }
-
-    // ✅ Ensure Dark Mode Toggle Works
-    let darkModeToggle = document.getElementById("dark-mode-toggle");
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener("click", () => {
-            let isDark = document.body.classList.toggle("dark-mode");
-            localStorage.setItem("darkMode", isDark);
+            }
         });
     }
 });
 
-// ✅ Handle Firebase Login
+// ✅ Handle Login
 function handleLogin() {
-    let email = document.getElementById("login-username")?.value.trim();
+    let email = document.getElementById("login-email")?.value.trim();
     let password = document.getElementById("login-password")?.value.trim();
     let errorBox = document.querySelector(".login-error");
 
@@ -100,38 +47,48 @@ function handleLogin() {
     }
 
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(userCredential => {
             alert("Login Successful!");
             window.location.href = "dashboard.html";
         })
-        .catch((error) => {
+        .catch(error => {
             if (errorBox) {
-                errorBox.textContent = error.message;
+                errorBox.textContent = "Invalid email or password!";
                 errorBox.style.display = "block";
             }
         });
 }
 
-// ✅ Function to Enable Profile Editing
+// ✅ Handle Logout
+function handleLogout() {
+    firebase.auth().signOut().then(() => {
+        alert("Logged out successfully!");
+        window.location.href = "login.html";
+    }).catch(error => console.error("Logout error:", error));
+}
+
+// ✅ Update Profile
 function editProfile() {
-    let nameElement = document.getElementById("profileName");
-    let emailElement = document.getElementById("profileEmail");
+    let user = firebase.auth().currentUser;
+    if (!user) return alert("You must be logged in!");
 
-    if (nameElement && emailElement) {
-        let newName = prompt("Enter your new name:", nameElement.textContent);
-        let newEmail = prompt("Enter your new email:", emailElement.textContent);
+    let newName = prompt("Enter your new name:", user.displayName || "User");
+    let newEmail = prompt("Enter your new email:", user.email || "email@example.com");
 
-        if (newName) {
-            nameElement.textContent = newName;
-            firebase.auth().currentUser.updateProfile({ displayName: newName });
-        }
-        if (newEmail) {
-            firebase.auth().currentUser.updateEmail(newEmail).catch(error => alert(error.message));
-        }
+    if (newName || newEmail) {
+        user.updateProfile({ displayName: newName }).then(() => {
+            document.getElementById("profileName").textContent = newName;
+            alert("Profile updated!");
+        }).catch(error => console.error("Profile update error:", error));
+
+        user.updateEmail(newEmail).then(() => {
+            document.getElementById("profileEmail").textContent = newEmail;
+            alert("Email updated!");
+        }).catch(error => console.error("Email update error:", error));
     }
 }
 
-// ✅ Function to Update Profile Picture
+// ✅ Update Profile Picture
 function updateProfilePic(event) {
     let file = event.target.files[0];
     if (file) {
@@ -140,14 +97,37 @@ function updateProfilePic(event) {
             let profilePic = document.getElementById("profilePic");
             if (profilePic) {
                 profilePic.src = e.target.result;
-                firebase.auth().currentUser.updateProfile({ photoURL: e.target.result });
+                firebase.auth().currentUser.updateProfile({ photoURL: e.target.result })
+                    .then(() => console.log("Profile picture updated!"))
+                    .catch(error => console.error("Profile pic update error:", error));
             }
         };
         reader.readAsDataURL(file);
     }
 }
 
-// ✅ Mobile Navigation Menu Toggle
+// ✅ Smooth Scroll to Sports Section
+function scrollToSection() {
+    let sportsSection = document.querySelector("#sports");
+    if (sportsSection) {
+        sportsSection.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+// ✅ Sticky Navigation Bar
+window.addEventListener("scroll", function () {
+    let nav = document.querySelector("nav");
+    if (nav) {
+        if (window.scrollY > 50) {
+            nav.style.backgroundColor = "#222";
+            nav.style.transition = "0.3s";
+        } else {
+            nav.style.backgroundColor = "transparent";
+        }
+    }
+});
+
+// ✅ Mobile Navigation Toggle
 let menuTimeout;
 function toggleMenu() {
     let navLinks = document.getElementById("nav-links");
@@ -157,7 +137,6 @@ function toggleMenu() {
             clearTimeout(menuTimeout);
         } else {
             navLinks.style.display = "block";
-            clearTimeout(menuTimeout);
             menuTimeout = setTimeout(() => {
                 navLinks.style.display = "none";
             }, 7000);
@@ -165,7 +144,7 @@ function toggleMenu() {
     }
 }
 
-// ✅ Chatbox Toggle & Messaging
+// ✅ Chatbox Functionality
 function toggleChat() {
     let chatBox = document.getElementById("chatBox");
     if (chatBox) {
