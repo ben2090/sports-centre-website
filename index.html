@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sports Center</title>
@@ -10,19 +9,17 @@
             position: relative;
             text-align: center;
             padding: 50px;
-            background: url('img/Ripper_Technologies_HighTech_Logo.jpg') no-repeat center center;
-            background-size: contain;
-            background-blend-mode: overlay;
-        }
-        .welcome-message h2, .welcome-message p, .welcome-message .cta-button {
-            position: relative;
-            z-index: 1;
+            background: url('img/logo_Center.jpg') no-repeat center center;
+            background-size: cover;
+            width: 100%;
+            height: 300px;
         }
     </style>
 </head>
-<body><!-- Navigation Bar -->
+<body>
+<!-- Navigation Bar -->
 <nav>
-    <button class="menu-toggle" onclick="toggleMenu()">☰</button> <!-- Hamburger Icon -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     <ul id="nav-links">
         <li><a href="#home" class="nav-link">Home</a></li>
         <li><a href="#sports" class="nav-link">Sports</a></li>
@@ -30,60 +27,34 @@
         <li><a href="#contact" class="nav-link">Contact</a></li>
         <li><a href="login.html" class="nav-link">Login</a></li>
     </ul>
-</nav>
-
-<!-- Message Below Navigation -->
-<section class="welcome-message">
+</nav><!-- Welcome Message with Logo --><section class="welcome-message"></section><!-- Sports Section --><section id="programs">
     <h2>Welcome to Greens Education and Sports Center</h2>
     <p>We provide top-tier training in academics and sports, including Tennis, Football, and more.</p>
    
-</section>
-
-<!-- Sports Section -->
-<section id="programs">
     <h2>Opening Soon</h2>
-    <p>We offer:</p>
+    <p>What We Offer:</p>
     <div class="sports-grid">
         <div class="sport">🏫 Day Care PP1 PP2</div>
         <div class="sport">📚 Grade 1-6</div>
         <div class="sport">🏫 Junior Secondary</div>
         <div class="sport">💻 Computer Skills</div>
-        <div class="sport">⛪ Pastrol Training</div>
+        <div class="sport">⛪ Pastoral Training</div>
         <div class="sport">🎾 Tennis Sports Training</div>
         <div class="sport">⚽ Football Sports Training</div>
     </div>
     <a href="tel:0722825417" class="cta-button">Call Now</a>
-</section>
-
-<!-- Trainers Section -->
-<section id="trainers">
+</section><!-- Trainers Section --><section id="trainers">
     <h2>Explore</h2>
-    <p>Discover some of our sports offerings with live images.</p>
-
+    <p>Take Action and join us in building the future.</p>
     <div class="trainers-grid">
-        <div class="trainer">
-            <img src="img/trainer1.jpg" alt="Trainer 1">
-        </div>
-        <div class="trainer">
-            <img src="img/trainer2.jpg" alt="Trainer 2">
-        </div>
-        <div class="trainer">
-            <img src="img/trainer3.jpg" alt="Trainer 3">
-        </div>
-        <div class="trainer">
-            <img src="img/trainer4.jpg" alt="Trainer 4">
-        </div>
-        <div class="trainer">
-            <img src="img/trainer5.jpg" alt="Trainer 5">
-        </div>
-        <div class="trainer">
-            <img src="img/trainer6.jpg" alt="Trainer 6">
-        </div>
+        <div class="trainer"><img src="img/trainer1.jpg" alt="Trainer 1"></div>
+        <div class="trainer"><img src="img/trainer2.jpg" alt="Trainer 2"></div>
+        <div class="trainer"><img src="img/trainer3.jpg" alt="Trainer 3"></div>
+        <div class="trainer"><img src="img/trainer4.jpg" alt="Trainer 4"></div>
+        <div class="trainer"><img src="img/trainer5.jpg" alt="Trainer 5"></div>
+        <div class="trainer"><img src="img/trainer6.jpg" alt="Trainer 6"></div>
     </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact">
+</section><!-- Contact Section --><section id="contact">
     <h2>Contact Us</h2>
     <p><i class="fas fa-envelope"></i> Email: <a href="mailto:info@sportscenter.com">info@sportscenter.com</a></p>
     <p><i class="fas fa-phone"></i> Phone: 0722825417</p>
@@ -93,28 +64,14 @@
         <textarea placeholder="Your Message" required></textarea>
         <button type="submit">Send Message</button>
     </form>
-</section>
-
-<!-- Login Section -->
-<section id="login">
+</section><!-- Login Section --><section id="login">
     <h2>Login</h2>
-    <a href="login.html">
-        <button>Go to Login Page</button>
-    </a>
-</section>
-
-<!-- Footer Section -->
-<footer>
+    <a href="login.html"><button>Go to Login Page</button></a>
+</section><!-- Footer Section --><footer>
     <img src="img/Ripper_Technologies_HighTech_Logo.jpg" alt="Ripper Technologies Logo">
     <p>Website created by Ben the Ripper</p>
     <p>&copy; 2025 Ripper Technologies. All rights reserved.</p>
-</footer>
-
-<!-- Chat Icon -->
-<div class="chat-icon" onclick="toggleChat()">💬</div>
-
-<!-- Chat Box -->
-<div class="chat-box" id="chatBox">
+</footer><!-- Chat Icon --><div class="chat-icon" onclick="toggleChat()">💬</div><!-- Chat Box --><div class="chat-box" id="chatBox">
     <div class="chat-header">
         <h3>Live Chat</h3>
         <button onclick="toggleChat()">✖</button>
@@ -124,9 +81,5 @@
         <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
         <button onclick="sendMessage()">Send</button>
     </div>
-</div>
-
-<script src="js/script.js"></script>
-
-</body>
-    </html>
+</div><script src="js/script.js"></script></body>
+                                                                                                      </html>
