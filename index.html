@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,121 +6,112 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-<body>
+<body><!-- Navigation Bar -->
+<nav>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button> <!-- Hamburger Icon -->
+    <ul id="nav-links">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#sports" class="nav-link">Sports</a></li>
+        <li><a href="#trainers" class="nav-link">Trainers</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="login.html" class="nav-link">Login</a></li>
+    </ul>
+</nav>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button> <!-- Hamburger Icon -->
-        <ul id="nav-links">
-            <li><a href="#home" class="nav-link">Home</a></li>
-            <li><a href="#sports" class="nav-link">Sports</a></li>
-            <li><a href="#trainers" class="nav-link">Trainers</a></li>
-            <li><a href="#contact" class="nav-link">Contact</a></li>
-            <li><a href="login.html" class="nav-link">Login</a></li>
-        </ul>
-    </nav>
+<!-- Message Below Navigation -->
+<section class="welcome-message">
+    <h2>Welcome to Greens Education and Sports Center</h2>
+    <p>We provide top-tier training in academics and sports, including Tennis, Football, and more.</p>
+    <a href="tel:0722825417" class="cta-button">Call Now</a>  
+    <p>Contact: 0722825417</p>
+</section>
 
-    <!-- Message Below Navigation -->
-    <section class="welcome-message">
-        <h2>Welcome to The Ultimate Education and Sports Training Center</h2>
-        <p>Greens Education and Children Center offers modern training in Tennis, Football, Volleyball, and Indoor Sports.</p>
-        <a href="#programs" class="cta-button">Join Now</a>  
-    </section>
+<!-- Sports Section -->
+<section id="programs">
+    <h2>Opening Soon</h2>
+    <div class="sports-grid">
+        <div class="sport">🏫 Day Care PP1 PP2</div>
+        <div class="sport">📚 Grade 1-6</div>
+        <div class="sport">🏫 Junior Secondary</div>
+        <div class="sport">💻 Computer Skills</div>
+        <div class="sport">⛪ Pastrol Training</div>
+        <div class="sport">🎾 Tennis Sports Training</div>
+        <div class="sport">⚽ Football Sports Training</div>
+    </div>
+</section>
 
-    <!-- Sports Section -->
-    <section id="programs">
-        <h2>Our Sports</h2>
-        <div class="sports-grid">
-            <div class="sport" onclick="openSport('Tennis')">🎾 Tennis</div>
-            <div class="sport" onclick="openSport('Football')">⚽ Football</div>
-            <div class="sport" onclick="openSport('Volleyball')">🏐 Volleyball</div>
-            <div class="sport" onclick="openSport('Basketball')">🏀 Basketball</div>
+<!-- Trainers Section -->
+<section id="trainers">
+    <h2>Explore</h2>
+    <p>Discover some of our sports offerings with live images.</p>
+
+    <div class="trainers-grid">
+        <div class="trainer">
+            <img src="img/trainer1.jpg" alt="Trainer 1">
         </div>
-    </section>
-
-    <!-- Trainers Section -->
-    <section id="trainers">
-        <h2>Explore</h2>
-        <p>Discover some of our sports offerings with live images.</p>
-
-        <div class="trainers-grid">
-            <div class="trainer">
-                <img src="img/trainer1.jpg" alt="Trainer 1">
-                <h3></h3>
-                <p></p>
-            </div>
-            <div class="trainer">
-                <img src="img/trainer2.jpg" alt="Trainer 2">
-                <h3></h3>
-                <p></p>
-            </div>
-            <div class="trainer">
-                <img src="img/trainer3.jpg" alt="Trainer 3">
-                <h3></h3>
-                <p></p>
-            </div>
-            <div class="trainer">
-                <img src="img/trainer4.jpg" alt="Trainer 4">
-                <h3></h3>
-                <p></p>
-            </div>
-            <div class="trainer">
-                <img src="img/trainer5.jpg" alt="Trainer 5">
-                <h3></h3>
-                <p></p>
-            </div>
-            <div class="trainer">
-                <img src="img/trainer6.jpg" alt="Trainer 6">
-                <h3></h3>
-                <p></p>
-            </div>
+        <div class="trainer">
+            <img src="img/trainer2.jpg" alt="Trainer 2">
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p><i class="fas fa-envelope"></i> Email: <a href="mailto:info@sportscenter.com">info@sportscenter.com</a></p>
-        <p><i class="fas fa-phone"></i> Phone: +123 456 7890</p>
-        <form id="contactForm">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea placeholder="Your Message" required></textarea>
-            <button type="submit">Send Message</button>
-        </form>
-    </section>
-
-    <!-- Login Section -->
-    <section id="login">
-        <h2>Login</h2>
-        <a href="login.html">
-            <button>Go to Login Page</button>
-        </a>
-    </section>
-
-    <!-- Footer Section -->
-    <footer>
-        <img src="img/Ripper_Technologies_HighTech_Logo.jpg" alt="Ripper Technologies Logo">
-        <p>Website created by Ben the Ripper</p>
-        <p>&copy; 2025 Ripper Technologies. All rights reserved.</p>
-    </footer>
-
-    <!-- Chat Icon -->
-    <div class="chat-icon" onclick="toggleChat()">💬</div>
-
-    <!-- Chat Box -->
-    <div class="chat-box" id="chatBox">
-        <div class="chat-header">
-            <h3>Live Chat</h3>
-            <button onclick="toggleChat()">✖</button>
+        <div class="trainer">
+            <img src="img/trainer3.jpg" alt="Trainer 3">
         </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">Send</button>
+        <div class="trainer">
+            <img src="img/trainer4.jpg" alt="Trainer 4">
+        </div>
+        <div class="trainer">
+            <img src="img/trainer5.jpg" alt="Trainer 5">
+        </div>
+        <div class="trainer">
+            <img src="img/trainer6.jpg" alt="Trainer 6">
         </div>
     </div>
+</section>
 
-    <script src="js/script.js"></script>
+<!-- Contact Section -->
+<section id="contact">
+    <h2>Contact Us</h2>
+    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:info@sportscenter.com">info@sportscenter.com</a></p>
+    <p><i class="fas fa-phone"></i> Phone: 0722825417</p>
+    <form id="contactForm">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+<!-- Login Section -->
+<section id="login">
+    <h2>Login</h2>
+    <a href="login.html">
+        <button>Go to Login Page</button>
+    </a>
+</section>
+
+<!-- Footer Section -->
+<footer>
+    <img src="img/Ripper_Technologies_HighTech_Logo.jpg" alt="Ripper Technologies Logo">
+    <p>Website created by Ben the Ripper</p>
+    <p>&copy; 2025 Ripper Technologies. All rights reserved.</p>
+</footer>
+
+<!-- Chat Icon -->
+<div class="chat-icon" onclick="toggleChat()">💬</div>
+
+<!-- Chat Box -->
+<div class="chat-box" id="chatBox">
+    <div class="chat-header">
+        <h3>Live Chat</h3>
+        <button onclick="toggleChat()">✖</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+
 </body>
-            </html>
+    </html>
